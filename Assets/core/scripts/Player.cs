@@ -1,15 +1,23 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private PlayerInputActions _playerinputactions;
+
     [SerializeField] private int _speed = 5;
+    [SerializeField] private int _jumpforce = 5;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _playerinputactions = new PlayerInputActions();
+        _playerinputactions.Player.Jump.performed += Jump_OnPerfomed;
         _playerinputactions.Enable();
+    }
+    private void Jump_OnPerfomed(InputAction.CallbackContext obj)
+    {
+        _rigidbody.AddForce(Vector3.up * _jumpforce);
     }
     private void Update()
     {
